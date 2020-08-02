@@ -28,5 +28,7 @@ http://www.drought.go.kr/dataViewer/dataViewer.do
 **주변 식당, 펜션에 대한 데이터는 반경 지정 후
 카카오맵 API를 활용해 몇개나 검색되는지를 확인해보는게
 그나마 현실적일것 같군요...
-아니면 통계청 인구 데이터를 활용해 보는??
+아니면 통계청 인구 데이터를 활용해 보는??..예외가 좀 많을것 같긴한데..
 
+수위 관측소 운영정보
+https://www.bigdata-environment.kr/user/data_market/detail.do?id=cd6bb810-38bb-11ea-be28-4fa0eb812a46
