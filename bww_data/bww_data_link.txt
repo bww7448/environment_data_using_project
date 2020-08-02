@@ -1,0 +1,32 @@
+수질데이터, 가뭄데이터
+https://www.bigdata-environment.kr/user/data_market
+
+sk 데이터 허브(t맵 데이터 / 
+https://www.bigdatahub.co.kr/index.do
+**T map data 상위 30 검색지 내 들어있을 경우 가산점 추가(7~8월)**
+
+sk(인포그래피_지역별 휴가 지역)
+https://www.bigdatahub.co.kr/section/detail.do?tpId=152
+
+기상청 기후 데이터
+https://data.kma.go.kr/data/grnd/selectAsosRltmList.do?pgmNo=36
+
+기상청 온도 전망 강수량 예보
+https://data.kma.go.kr/data/weatherReport/mrfList.do?pgmNo=646
+**단기 예보 -> 3일 이내
+**중기 예보 -> 3~7/7~10 일 이내 예보
+**여행자에게 물놀이 날짜를 입력 받아 기상정보도 활용가능하다.
+
+
+가뭄데이터 포탈
+http://www.drought.go.kr/dataViewer/dataViewer.do
+
+**수심데이터를 찾아 나선지 3시간.. 도저히 보이지 않는다....
+가뭄데이터와 최근 2주 기상데이터를 활용한다면
+수심을 어느정도 예측이 가능할까???
+
+**주변 식당, 펜션에 대한 데이터는 반경 지정 후
+카카오맵 API를 활용해 몇개나 검색되는지를 확인해보는게
+그나마 현실적일것 같군요...
+아니면 통계청 인구 데이터를 활용해 보는??
+
