@@ -32,3 +32,12 @@ http://www.drought.go.kr/dataViewer/dataViewer.do
 
 수위 관측소 운영정보
 https://www.bigdata-environment.kr/user/data_market/detail.do?id=cd6bb810-38bb-11ea-be28-4fa0eb812a46
+
+반려견 배변봉투 설치된 공원이 있기도 하고 없기도 함
+->environment data는?
+반려견 몇마리나 있는지 data 있음..
+공원 data도 있음.
+환경은??????????
+
+
+
