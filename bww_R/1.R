@@ -6,10 +6,10 @@ set_install <- function(){
   remotes::install_github('haven-jeon/KoNLP', upgrade = "never", force = TRUE, 
                           INSTALL_opts=c("--no-multiarch"))
   install.packages(c('RColorBrewer','wordcloud'))
+  install.packages("xlsx")
 }
 set_install()
-
-
+###############################################################################
 set_library <- function(){
   library(dplyr)
   library(ggplot2)
@@ -18,10 +18,11 @@ set_library <- function(){
   library(rJava)
   library(httr)
   library(readr)
+  library(xlsx)
   setwd("C:\\big data class\\2020_environment_data_using_project\\bww_R\\Data")
 }
 set_library()
-
+###############################################################################
 make_zzin <- function(Yangu){Yangu_zzin <- Yangu %>% 
   select(ptnm, addr, wmyr, wmod, wmdep, itemamnt, itemtemp, itemph, 
          itemdoc, itembod, itemcod, itemss, itemtcoli, itemtn, 
@@ -33,13 +34,14 @@ make_zzin <- function(Yangu){Yangu_zzin <- Yangu %>%
   Yangu_add
   Yangu_add[[1]][4]
   for (i in 1:length(Yangu_zzin$addr)){
+    Yangu_zzin$add0[i] <- Yangu_add[[i]][2]
     Yangu_zzin$add1[i] <- Yangu_add[[i]][3]
     Yangu_zzin$add2[i] <- Yangu_add[[i]][4]
     Yangu_zzin$add3[i] <- Yangu_add[[i]][5]
   }
   return(Yangu_zzin)
 }
-
+###############################################################################
 wqgf <- function(Yangu_zzin){
   Yangu_zzin$wqg <- ifelse(Yangu_zzin$itemph >= 6.5 & 
                            Yangu_zzin$itemph <= 8.5 &
@@ -91,8 +93,7 @@ wqgf <- function(Yangu_zzin){
                                  Yangu_zzin$itemtp <= 0.5, 6, 7))))))
   return(Yangu_zzin$wqg)
 }
-
-
+###############################################################################
 Yangu <- read.csv("Yangu2.csv", header = T,
                  stringsAsFactors = F, sep = ",", fill = TRUE)
 Goesan <- read.csv("Goesan2.csv", header = T,
@@ -101,10 +102,27 @@ Yeongwol <- read.csv("Yeongwol2.csv", header = T,
                   stringsAsFactors = F, sep = ",", fill = TRUE)
 Inje <- read.csv("Inje2.csv", header = T,
                   stringsAsFactors = F, sep = ",", fill = TRUE)
-All <- read.csv("water_qual_202001.csv", header = F, 
-                stringsAsFactors = F, sep = ",", fill = TRUE)
-
-
+###############################################################################
+Yangu_zzin <- make_zzin(Yangu)
+Inje_zzin <- make_zzin(Inje)
+Goesan_zzin <- make_zzin(Goesan)
+Yeongwol_zzin <- make_zzin(Yeongwol)
+###############################################################################
+Yangu_zzin$wqg <- wqgf(Yangu_zzin)
+Inje_zzin$wqg <- wqgf(Inje_zzin)
+Goesan_zzin$wqg <- wqgf(Goesan_zzin)
+Yeongwol_zzin$wqg <- wqgf(Yeongwol_zzin)
+###############################################################################
+View(Yangu_zzin)
+View(Inje_zzin)
+View(Goesan_zzin)
+View(Yeongwol_zzin)
+###############################################################################
+write.xlsx(Yangu_zzin %>% arrange(add1, add2, add3), file = "Yangu_zzin.xlsx")
+write.xlsx(Inje_zzin %>% arrange(add1, add2, add3), file = "Inje_zzin.xlsx")
+write.xlsx(Goesan_zzin %>% arrange(add1, add2, add3), file = "Goesan_zzin.xlsx")
+write.xlsx(Yeongwol_zzin %>% arrange(add1, add2, add3), file = "Yeongwol_zzin.xlsx")
+################################################################################
 Yangu_zzin <- Yangu %>% 
   select(ptnm, addr, wmyr, wmod, wmdep, itemamnt, itemtemp, itemph, itemdoc, itembod, itemcod, itemcod, itemss, itemtcoli, itemtn, itemtp, itemcloa, itemphenol, itemec, itemno3n) %>% 
   filter(!is.na(itemph)&!is.na(itemcod)&!is.na(itembod)&!is.na(itemss)&!is.na(itemtp))
@@ -159,19 +177,3 @@ View(Inje_zzin)
 Inje_zzin <- wqgf(Inje_zzin)
 Yangu$itemtoc
 View(Yangu)
-Yangu_zzin <- make_zzin(Yangu)
-Inje_zzin <- make_zzin(Inje)
-Goesan_zzin <- make_zzin(Goesan)
-Yeongwol_zzin <- make_zzin(Yeongwol)
-
-
-
-Yangu_zzin$wqg <- wqgf(Yangu_zzin)
-Inje_zzin$wqg <- wqgf(Inje_zzin)
-Goesan_zzin$wqg <- wqgf(Goesan_zzin)
-Yeongwol_zzin$wqg <- wqgf(Yeongwol_zzin)
-
-View(Goesan_zzin)
-View(Yeongwol_zzin)
-View(Inje_zzin)
-View(Yangu_zzin)
