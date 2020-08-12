@@ -1,3 +1,4 @@
+setwd('C:\\Users\\09\\Desktop\\R\\environment_data_using_project\\bww_R\\Data')
 test2 <- read.table(file = "water_qual_202001.csv", fileEncoding = 'UTF-8', header = T,
                     fill = T, sep = ',', quote = "")
 
@@ -6,7 +7,7 @@ library(readr)
 test <- read_delim(file = "water_qual_202001.csv", col_names = T, delim = ",")
 View(test)
 ###############################################################################
-wq_1912 <- read_delim(file = "water_qual_201912.csv", col_names = T, delim = ",")
+wq_1912 <- read_delim(file = "water_qual_201912.csv", col_names = T, delim = ",") 
 wq_2001 <- read_delim(file = "water_qual_202001.csv", col_names = T, delim = ",")
 wq_2002 <- read_delim(file = "water_qual_202002.csv", col_names = T, delim = ",")
 wq_2003 <- read_delim(file = "water_qual_202003.csv", col_names = T, delim = ",")

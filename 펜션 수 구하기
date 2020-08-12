@@ -1,0 +1,111 @@
+install.packages('dplyr')
+library('dplyr')
+
+install.packages('rvest')
+install.packages('stringr')
+library(rvest)
+library(stringr)
+library(geosphere)
+
+#상가 데이터 호출
+s_data<-read.table(file='C:\\Users\\BSM\\Desktop\\박상명\\공부\\2020-하\\빅데이터 분석 과정\\환경 빅데이터 공모전\\R\\bigdata_contest\\상가업소정보_201912_03.csv',
+                   fileEncoding='UTF-8',sep="|",header=T,
+                   fill=T,quote = "")
+
+#숙박 업소만 추출
+pension <- s_data %>% select(상가업소번호, 상호명, 지점명, 상권업종대분류명, 상권업종중분류명,
+                                      표준산업분류명, 시도명, 시군구명, 행정동명, 도로명주소, 경도, 위도) %>% 
+  filter(상권업종대분류명 == '숙박')
+
+#괴산 숙박업소
+pension_gs <- pension %>% filter(시군구명 == '괴산군')
+#영월 숙박업소
+pension_yw <- pension %>% filter(시군구명 == '영월군')
+#양구 숙박업소
+pension_yg <- pension %>% filter(시군구명 == '양구군')
+#인제 숙박업소
+pension_ij <- pension %>% filter(시군구명 == '인제군')
+
+View(pension_yg)
+
+
+#-------------펜션 - 계곡 거리 구하기
+
+####계곡 데이터 정리하기
+#계곡 좌표 데이터 불러오기
+gg_data <- read.csv('C:\\Users\\BSM\\Desktop\\박상명\\공부\\2020-하\\빅데이터 분석 과정\\환경 빅데이터 공모전\\계곡DB - 계곡-좌표.csv',
+                    header=T, fileEncoding = 'UTF-8')
+gg_data$지역 <- as.factor(gg_data$지역)
+gg_data$계곡명 <- as.character(gg_data$계곡명)
+gg_data$좌표용.이름 <- as.character(gg_data$좌표용.이름)
+
+gg_data$p_count <- 0
+gg_data <- gg_data %>% arrange(지역)
+
+pension_loc <- pension %>% select(상가업소번호, 상호명, 시군구명, 도로명주소, 경도, 위도)
+pension_loc$시군구명 <- as.factor(pension_loc$시군구명)
+
+levels(gg_data$지역)
+
+gg_data$지역[1]
+
+total_num <- c()
+for(i in levels(gg_data$지역)){
+  compare_p <- pension_loc %>% filter(시군구명== i)
+  compare_g <- gg_data %>% filter(지역 == i)
+  dist_pension <- distm(compare_p[,c('경도','위도')], compare_g[,c('Longitude','Latitude')],fun=distGeo)
+  dist_pension <- dist_pension/1000
+  
+  #펜션 수 세서 벡터 만들기
+  pension_num <- c()
+  for(j in 1:length(dist_pension[1,])){
+    ith <- length(which(dist_pension[, j]<=10))
+    pension_num <- append(pension_num, ith)
+  }
+  total_num <- append(total_num, pension_num)
+}
+View(dist_pension)
+gg_data$p_count <- total_num
+
+View(gg_data)
+
+write.csv(gg_data, '계곡_펜션수data.csv', row.names = F)
+
+#-----------------------------------------------------------------------------------------------------------------
+# 
+# #지역별로 정리
+# gg_data_gs <- gg_data %>% filter(지역=='괴산군')
+# gg_data_yw <- gg_data %>% filter(지역=='영월군')
+# gg_data_yg <- gg_data %>% filter(지역=='양구군')
+# gg_data_ij <- gg_data %>% filter(지역=='인제군')
+# View(gg_data_yg)
+# loc_list <- c(gg_data_gs, gg_data_yw, gg_data_yg, gg_data_ij)
+# 
+# gg_data_yg$p_count <- 0
+# 
+# #####펜션 데이터 정리하기
+# yg_pension_loc <- pension_yg %>% select(상가업소번호, 상호명, 도로명주소, 경도, 위도)
+# 
+# View(gg_data_yg)
+# 
+# #주소 계산 라이브러리 호출
+# suppressMessages({
+#   if(!require(geosphere)) install.packages("geosphere")
+#   library(geosphere) 
+# })
+# 
+# dist_pension_yg <- distm(yg_pension_loc[,c('경도','위도')], gg_data_yg[,c('Longitude','Latitude')],fun=distGeo)
+# dist_pension_yg <- dist_pension_yg/1000
+# View(dist_pension_yg)
+# 
+# #펜션 수 세서 벡터 만들기
+# pension_num <- c()
+# for(i in 1:length(dist_pension_yg[1,])){
+#   ith <- length(which(dist_pension_yg[, i]<=10))
+#   print(ith)
+#   pension_num <- append(pension_num, ith)
+# }
+# 
+# final_gs <- data.frame(name = gg_data_yg$계곡명, n_pensions = pension_num)
+# 
+# final_gs
