@@ -23,18 +23,18 @@ set_library <- function(){
 }
 set_library()
 ###############################################################################
-make_zzin <- function(Yangu){Yangu_zzin <- Yangu %>% 
+make_zzin <- function(Yangu){Yangu_zzin <- Yangu %>%  #수질데이터 필요한 데이터만 추출, 
   select(ptnm, addr, wmyr, wmod, wmdep, itemamnt, itemtemp, itemph, 
          itemdoc, itembod, itemcod, itemss, itemtcoli, itemtn, 
          itemtp, itemcloa, itemphenol, itemec, itemno3n, itemtoc) %>% 
-  filter(!is.na(itemph)&!is.na(itemcod)&!is.na(itembod)
+  filter(!is.na(itemph)&!is.na(itemcod)&!is.na(itembod) #결측치 제거
           &!is.na(itemss)&!is.na(itemtp)&!is.na(itemtoc))
   Yangu_add <-Yangu_zzin$addr 
   Yangu_add <- strsplit(Yangu_add, " ")
   Yangu_add
   Yangu_add[[1]][4]
   for (i in 1:length(Yangu_zzin$addr)){
-    Yangu_zzin$add0[i] <- Yangu_add[[i]][2]
+    Yangu_zzin$add0[i] <- Yangu_add[[i]][2] #상세주소
     Yangu_zzin$add1[i] <- Yangu_add[[i]][3]
     Yangu_zzin$add2[i] <- Yangu_add[[i]][4]
     Yangu_zzin$add3[i] <- Yangu_add[[i]][5]
@@ -43,14 +43,14 @@ make_zzin <- function(Yangu){Yangu_zzin <- Yangu %>%
 }
 ###############################################################################
 wqgf <- function(Yangu_zzin){
-  Yangu_zzin$wqg <- ifelse(Yangu_zzin$itemph >= 6.5 & 
-                           Yangu_zzin$itemph <= 8.5 &
+  Yangu_zzin$wqg <- ifelse(Yangu_zzin$itemph >= 6.5 &  #수질등급 주기
+                           Yangu_zzin$itemph <= 8.5 & #한수원 수질등급 기준
                            Yangu_zzin$itembod <= 1 & 
                            Yangu_zzin$itemcod <= 2 &
                            Yangu_zzin$itemtoc <= 2 &
                            Yangu_zzin$itemss <= 25 &
                            Yangu_zzin$itemdoc >= 7.5 &
-                           Yangu_zzin$itemtp <= 0.02, 1, 
+                           Yangu_zzin$itemtp <= 0.02, 1,
                      ifelse(Yangu_zzin$itemph >= 6.5 & 
                             Yangu_zzin$itemph <= 8.5 &
                             Yangu_zzin$itembod <= 2 & 
