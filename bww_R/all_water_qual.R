@@ -87,3 +87,43 @@ write.csv(Goesan_zzin %>% arrange(add1, add2, add3), file = "Goesan_zzin2.csv")
 write.csv(Yeongwol_zzin %>% arrange(add1, add2, add3), file = "Yeongwol_zzin2.csv")
 ################################################################################
 str(Yangu_zzin)
+
+G_df <- wq_1912_zzin %>% filter(add0 == "가평군")
+G_df <- rbind(G_df, wq_2001_zzin %>% filter(add0 == "가평군"))
+G_df <- rbind(G_df, wq_2002_zzin %>% filter(add0 == "가평군"))
+G_df <- rbind(G_df, wq_2003_zzin %>% filter(add0 == "가평군"))
+G_df <- rbind(G_df, wq_2004_zzin %>% filter(add0 == "가평군"))
+G_df <- rbind(G_df, wq_2005_zzin %>% filter(add0 == "가평군"))
+G_df$wqg <- wqgf(G_df)
+
+##############################################################
+Bonghwa_zzin <- 
+  G_df %>% 
+  group_by(add0, add1, add2, add3) %>% 
+  summarise(mwqg = mean(wqg))
+View(Bonghwa_zzin)
+##############################################################
+Sancheong_zzin <- 
+  G_df %>% 
+  group_by(add0, add1, add2, add3) %>% 
+  summarise(mwqg = mean(wqg))
+View(Sancheong_zzin)
+##############################################################
+Ulju_zzin <- 
+  G_df %>% 
+  group_by(add0, add1, add2, add3) %>% 
+  summarise(mwqg = mean(wqg))
+View(Ulju_zzin)
+##############################################################
+Paju_zzin <- 
+  G_df %>% 
+  group_by(add0, add1, add2, add3) %>% 
+  summarise(mwqg = mean(wqg))
+View(Paju_zzin)
+##############################################################
+Gapyeong_zzin <- 
+  G_df %>% 
+  group_by(add0, add1, add2, add3) %>% 
+  summarise(mwqg = mean(wqg))
+View(Gapyeong_zzin)
+##############################################################

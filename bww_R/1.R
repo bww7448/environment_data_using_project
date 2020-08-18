@@ -102,6 +102,7 @@ Yeongwol <- read.csv("Yeongwol2.csv", header = T,
                   stringsAsFactors = F, sep = ",", fill = TRUE)
 Inje <- read.csv("Inje2.csv", header = T,
                   stringsAsFactors = F, sep = ",", fill = TRUE)
+
 ###############################################################################
 Yangu_zzin <- make_zzin(Yangu)
 Inje_zzin <- make_zzin(Inje)
